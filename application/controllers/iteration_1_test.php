@@ -3,27 +3,44 @@
 class Iteration_1_test extends CI_Controller {
 
 	function __construct(){
-		$this->load->library('unit_test');
+		parent::__construct();
 	}
+
 	/**
-	 */
+	 * Tests container
+	 *
+	 * @return void
+	 * @author Miguel Cabral
+	 **/
 	public function index()
 	{
-		// simple unit test
-		$test = 1 + 1;
-		$expected_result = 2;
-		$test_name = 'Adds one plus one';
-		$this->unit->run($test, $expected_result, $test_name);
+		$data['base_url'] = base_url();
+
+		$this->load->view('header');
+		$this->load->view('login_test');
+		$this->load->view('footer', $data);
 	}
 
 	/**
 	 * Tests to save a Facebook user into DB
 	 *
 	 * @return void
-	 * @author 
+	 * @author Miguel Cabral
 	 **/
-	function save_fb_user($fb_user_data)
+	function save_fb_user()
 	{
+		// Create a facebook user
+		$this->load->model('facebook_user');
+
+		// Get user data
+		$user_data['id'] = $_POST['id'];
+		$user_data['first_name'] = $_POST['first_name'];
+		$user_data['last_name'] = $_POST['last_name'];
+		$user_data['email'] = $_POST['email'];
+		$user_data['gender'] = $_POST['gender'];
+		$user_data['access_token'] = $_POST['access_token'];
+
+		echo $this->facebook_user->create_user($user_data);
 	}
 
 }// Iteration_1_test
